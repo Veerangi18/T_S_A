@@ -27,7 +27,7 @@ import matplotlib.pyplot as plt
 
 # st.sidebar.subheader("Show random tweet")
 # random_tweet = st.sidebar.radio('Sentiment', ('positive', 'neutral', 'negative'))
-# st.sidebar.markdown(data.query("airline_sentiment == @random_tweet")[["text"]].sample(n=1).iat[0, 0])
+# st.sidebar.markdown(data.query("airline_sentiment == @random_tweet")[["clean_text"]].sample(n=1).iat[0, 0])
 
 # st.sidebar.markdown("### Number of tweets by sentiment")
 # select = st.sidebar.selectbox('Visualization type', ['Bar plot', 'Pie chart'], key='1')
