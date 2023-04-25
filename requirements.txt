@@ -5,3 +5,4 @@ plotly
 WordCloud
 STOPWORDS
 matplotlib
+nltk
