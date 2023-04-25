@@ -18,9 +18,9 @@ st.set_option('deprecation.showPyplotGlobalUse', False)
 df = pd.read_csv('Twitter_Data.csv')
 
 # Create a function to analyze sentiment
-def analyze_sentiment(text):
+def analyze_sentiment(clean_text):
     analyzer = SentimentIntensityAnalyzer()
-    scores = analyzer.polarity_scores(text)
+    scores = analyzer.polarity_scores(clean_text)
     if scores['compound'] >= 0.05:
         return 'Positive'
     elif scores['compound'] <= -0.05:
@@ -44,12 +44,12 @@ def search_tweets(keyword, num_tweets):
 # Create a function to display a pie chart or a bar chart of the sentiment distribution
 def display_chart(data, chart_type):
     if chart_type == 'Pie Chart':
-        chart_data = data['category'].value_counts()
+        chart_data = data['compound'].value_counts()
         fig1, ax1 = plt.subplots()
         ax1.pie(chart_data, labels=chart_data.index, autopct='%1.1f%%')
         st.pyplot(fig1)
     elif chart_type == 'Bar Chart':
-        chart_data = data['category'].value_counts()
+        chart_data = data['compound'].value_counts()
         fig2, ax2 = plt.subplots()
         ax2.bar(chart_data.index, chart_data)
         st.pyplot(fig2)
