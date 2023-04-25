@@ -132,7 +132,7 @@ import matplotlib.pyplot as plt
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
 # Load the dataset
-df = pd.read_csv('Sentiment.csv')
+df = pd.read_csv('Twitter_Data.csv')
 
 # Create a function to search for tweets that contain a specific keyword
 def search_tweets(keyword, num_tweets):
