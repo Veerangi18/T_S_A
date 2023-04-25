@@ -6,3 +6,4 @@ WordCloud
 STOPWORDS
 matplotlib
 nltk
+textblob
