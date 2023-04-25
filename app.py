@@ -98,16 +98,13 @@ def main():
     # Analyze sentiment using Vader
         results['sentiment_vader'] = results['clean_text'].apply(analyze_sentiment_vader)
 
-    st.write("Sentiment Distribution:")
+   
+    st.write("Sentiment Analysis: ")
+    st.write(results[['clean_text', 'sentiment_textblob', 'sentiment_vader']])
+
+   
+     st.write("Sentiment Distribution:")
     display_chart(results, chart_type)
-
-    st.write("Sentiment Analysis using TextBlob:")
-    results['sentiment_textblob'] = results['clean_text'].apply(analyze_sentiment_textblob)
-    st.write(results[['clean_text', 'sentiment_textblob']])
-
-    st.write("Sentiment Analysis using Vader:")
-    results['sentiment_vader'] = results['clean_text'].apply(analyze_sentiment_vader)
-    st.write(results[['clean_text', 'sentiment_vader']])
 
     display_chart(results, chart_type)
     
