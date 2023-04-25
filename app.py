@@ -72,16 +72,7 @@ def display_chart(data, chart_type):
         fig1, ax1 = plt.subplots()
         ax1.pie(chart_data, labels=chart_data.index, autopct='%1.1f%%')
         st.pyplot(fig1)
-        
-        st.write("Word Cloud of Most Frequent Words:")
-        text = " ".join(review for review in results.clean_text)
-        stopwords = set(STOPWORDS)
-        stopwords.update([keyword])
-        wordcloud = WordCloud(stopwords=stopwords, background_color="white").generate(text)
-        plt.imshow(wordcloud, interpolation='bilinear')
-        plt.axis("off")
-        st.pyplot()
-        
+       
     elif chart_type == 'Bar Chart':
         chart_data = data['category'].value_counts()
         fig2, ax2 = plt.subplots()
@@ -119,8 +110,17 @@ def main():
     st.write(results[['clean_text', 'sentiment_vader']])
 
     display_chart(results, chart_type)
-
     
+    if chart_type == 'Bar Chart':
+    
+        st.write("Word Cloud of Most Frequent Words:")
+        text = " ".join(review for review in results.clean_text)
+        stopwords = set(STOPWORDS)
+        stopwords.update([keyword])
+        wordcloud = WordCloud(stopwords=stopwords, background_color="white").generate(text)
+        plt.imshow(wordcloud, interpolation='bilinear')
+        plt.axis("off")
+        st.pyplot()    
 
 if __name__ == '__main__':
     main()
