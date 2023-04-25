@@ -108,7 +108,7 @@ def main():
     ax4.axis("off")
     st.pyplot(fig4)
 if name == 'main':
-main()
+    main()
 ----------------------------------------------------------------------------------------------------------------------
 # import streamlit as st
 # import pandas as pd
