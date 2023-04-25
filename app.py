@@ -92,7 +92,7 @@ def main():
 
     if not results.empty:
         # Analyze sentiment using TextBlob and Vader
-        results['sentiment_textblob'] = results['clean_text'].
+        results['sentiment_textblob'] = results['clean_text']
 if __name__ == '__main__':
     main()
 # ---------------------------------------------------
