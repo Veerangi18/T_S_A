@@ -59,6 +59,14 @@ def search_tweets(keyword, num_tweets):
 
 # Create a function to display a pie chart or a bar chart of the sentiment distribution
 def display_chart(data, chart_type):
+    if 'sentiment_textblob' in data.columns:
+        data = data[['clean_text', 'sentiment_textblob']].rename(columns={'sentiment_textblob': 'category'})
+    elif 'sentiment_vader' in data.columns:
+        data = data[['clean_text', 'sentiment_vader']].rename(columns={'sentiment_vader': 'category'})
+    else:
+        st.write('Error: input DataFrame must have a sentiment column')
+        return
+
     if chart_type == 'Pie Chart':
         chart_data = data['category'].value_counts()
         fig1, ax1 = plt.subplots()
@@ -69,6 +77,7 @@ def display_chart(data, chart_type):
         fig2, ax2 = plt.subplots()
         ax2.bar(chart_data.index, chart_data)
         st.pyplot(fig2)
+
 
 # Create a streamlit app
 def main():
