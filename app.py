@@ -92,10 +92,10 @@ def main():
 
     if not results.empty:
         # Analyze sentiment using TextBlob
-    results['sentiment_textblob'] = results['clean_text'].apply(analyze_sentiment_textblob)
+        results['sentiment_textblob'] = results['clean_text'].apply(analyze_sentiment_textblob)
 
     # Analyze sentiment using Vader
-    results['sentiment_vader'] = results['clean_text'].apply(analyze_sentiment_vader)
+        results['sentiment_vader'] = results['clean_text'].apply(analyze_sentiment_vader)
 
     st.write("Sentiment Distribution:")
     display_chart(results, chart_type)
