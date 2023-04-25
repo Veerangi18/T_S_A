@@ -103,7 +103,7 @@ def main():
     st.write(results[['clean_text', 'sentiment_textblob', 'sentiment_vader']])
 
    
-     st.write("Sentiment Distribution:")
+    st.write("Sentiment Distribution:")
     display_chart(results, chart_type)
 
     display_chart(results, chart_type)
