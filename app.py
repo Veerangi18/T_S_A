@@ -136,8 +136,18 @@ df = pd.read_csv('Twitter_Data.csv')
 
 # Create a function to search for tweets that contain a specific keyword
 def search_tweets(keyword, num_tweets):
-    results = df[df['clean_text'].str.contains(keyword)].head(num_tweets)
+    df = pd.read_csv('Sentiment.csv', encoding='ISO-8859-1')
+    df = df.drop(['ItemID', 'SentimentSource'], axis=1)
+    df['clean_text'] = df['SentimentText'].apply(clean_text)
+    df = df.drop('SentimentText', axis=1)
+    
+    if keyword:
+        results = df[df['clean_text'].str.contains(keyword, na=False)].head(num_tweets)
+    else:
+        results = df.head(num_tweets)
+    
     return results
+
 
 # Create a function to display a pie chart or a bar chart of the sentiment distribution
 def display_chart(data, chart_type):
