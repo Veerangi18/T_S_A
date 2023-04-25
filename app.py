@@ -108,7 +108,7 @@ def main():
     results['sentiment_vader'] = results['clean_text'].apply(analyze_sentiment_vader)
     st.write(results[['clean_text', 'sentiment_vader']])
 
-    display_chart(results, Bar Chart)
+    display_chart(results, Bar chart_type)
 
     st.write("Word Cloud of Most Frequent Words:")
     text = " ".join(review for review in results.clean_text)
