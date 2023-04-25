@@ -41,15 +41,19 @@ def analyze_sentiment_vader(clean_text):
         return 'Neutral'
 
 # Create a function to search for tweets that contain a specific keyword
-
 def search_tweets(keyword, num_tweets):
     df = pd.read_csv('Twitter_Data.csv', encoding='ISO-8859-1')
-    
+
     if keyword:
-        results = df[df['clean_text'].str.contains(keyword, na=False)].sample(n=num_tweets)
+        results = df[df['clean_text'].str.contains(keyword, na=False)]
     else:
-        results = df.sample(n=num_tweets)
-    
+        results = df
+
+    if num_tweets > results.shape[0]:
+        num_tweets = results.shape[0]
+
+    results = results.sample(n=num_tweets)
+
     return results
 
 
