@@ -149,10 +149,10 @@ def search_tweets(keyword, num_tweets):
 # Create a function to display a pie chart or a bar chart of the sentiment distribution
 def display_chart(data, chart_type):
     if chart_type == 'Pie Chart':
-        chart_data = data['label'].value_counts()
+        chart_data = data['category'].value_counts()
         st.write(chart_data.plot.pie(autopct='%1.1f%%'))
     elif chart_type == 'Bar Chart':
-        chart_data = data['label'].value_counts()
+        chart_data = data['category'].value_counts()
         st.write(chart_data.plot.bar())
 
 # Create a streamlit app
