@@ -89,7 +89,6 @@ def main():
     chart_type = st.selectbox("Select the type of chart to display:", ["Pie Chart", "Bar Chart"])
 
     results = search_tweets(keyword, num_tweets)
-    st.write(results[['clean_text']])
 
     if not results.empty:
         # Analyze sentiment using TextBlob
@@ -97,16 +96,15 @@ def main():
 
     # Analyze sentiment using Vader
         results['sentiment_vader'] = results['clean_text'].apply(analyze_sentiment_vader)
-
    
     st.write("Sentiment Analysis: ")
     st.write(results[['clean_text', 'sentiment_textblob', 'sentiment_vader']])
-
    
     st.write("Sentiment Distribution:")
     display_chart(results, chart_type)
 
-    display_chart(results, chart_type)
+    display_chart(results['sentiment_textblob'], chart_type)
+    display_chart(results['sentiment_vader'], chart_type)
     
     if chart_type == 'Bar Chart':
     
