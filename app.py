@@ -79,8 +79,8 @@ def display_chart(data, chart_type):
         ax2.bar(chart_data.index, chart_data)
         st.pyplot(fig2)
 
-
 # Create a streamlit app
+
 def main():
     st.title("Twitter Sentiment Analysis")
     st.write("Enter a keyword to search for tweets:")
@@ -94,17 +94,18 @@ def main():
         # Analyze sentiment using TextBlob
         results['sentiment_textblob'] = results['clean_text'].apply(analyze_sentiment_textblob)
 
-    # Analyze sentiment using Vader
+        # Analyze sentiment using Vader
         results['sentiment_vader'] = results['clean_text'].apply(analyze_sentiment_vader)
-   
-    st.write("Sentiment Analysis: ")
-    st.write(results[['clean_text', 'sentiment_textblob', 'sentiment_vader']])
-   
-    st.write("Sentiment Distribution:")
-    display_chart(results, chart_type)
 
-    display_chart(results['sentiment_textblob'], chart_type)
-    display_chart(results['sentiment_vader'], chart_type)
+        st.write("Sentiment Analysis: ")
+        st.write(results[['clean_text', 'sentiment_textblob', 'sentiment_vader']])
+
+        st.write("Sentiment Distribution (TextBlob):")
+        display_chart(results['sentiment_textblob'], chart_type)
+
+        st.write("Sentiment Distribution (Vader):")
+        display_chart(results['sentiment_vader'], chart_type)
+
     
     if chart_type == 'Bar Chart':
     
