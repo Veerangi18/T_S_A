@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 
 import nltk
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
+from textblob import TextBlob
 
 nltk.download('vader_lexicon')
 
@@ -17,8 +18,19 @@ st.set_option('deprecation.showPyplotGlobalUse', False)
 # Load the dataset
 df = pd.read_csv('Twitter_Data.csv')
 
-# Create a function to analyze sentiment
-def analyze_sentiment(clean_text):
+# Create a function to analyze sentiment using TextBlob
+def analyze_sentiment_textblob(clean_text):
+    blob = TextBlob(clean_text)
+    polarity = blob.sentiment.polarity
+    if polarity > 0:
+        return 'Positive'
+    elif polarity < 0:
+        return 'Negative'
+    else:
+        return 'Neutral'
+
+# Create a function to analyze sentiment using Vader
+def analyze_sentiment_vader(clean_text):
     analyzer = SentimentIntensityAnalyzer()
     scores = analyzer.polarity_scores(clean_text)
     if scores['compound'] >= 0.05:
@@ -66,12 +78,112 @@ def main():
     st.write(results)
 
     if not results.empty:
-        results['sentiment'] = results['clean_text'].apply(analyze_sentiment)
-        st.write(f"Sentiment distribution for keyword: {keyword}")
-        display_chart(results, chart_type)
+        # Analyze sentiment using TextBlob and Vader
+        results['sentiment_textblob'] = results['clean_text'].apply(analyze_sentiment_textblob)
+        results['sentiment_vader'] = results['clean_text'].apply(analyze_sentiment_vader)
+        
+        # Display comparison of sentiment analysis using TextBlob and Vader
+        st.write('Comparison of sentiment analysis using TextBlob and Vader:')
+        fig3, ax3 = plt.subplots()
+        ax3.hist([results['sentiment_textblob'], results['sentiment_vader']], color=['orange', 'green'], alpha=0.5, label=['TextBlob', 'Vader'])
+        ax3.legend()
+        st.pyplot(fig3)
+        
+        # Display sentiment distribution for each method
+    st.write('Sentiment distribution using TextBlob:')
+    display_chart(results[['clean_text', 'sentiment_textblob']].rename(columns={'sentiment_textblob': 'category'}), chart_type)
+    
+    st.write('Sentiment distribution using Vader:')
+    display_chart(results[['clean_text', 'sentiment_vader']].rename(columns={'sentiment_vader': 'category'}), chart_type)
+    
+    # Display word cloud of most common words
+    st.write('Word cloud of most common words:')
+    stopwords = set(STOPWORDS)
+    wordcloud = WordCloud(width = 800, height = 800, 
+                    background_color ='white', 
+                    stopwords = stopwords, 
+                    min_font_size = 10).generate(' '.join(results['clean_text']))
+    fig4, ax4 = plt.subplots()
+    ax4.imshow(wordcloud)
+    ax4.axis("off")
+    st.pyplot(fig4)
+if name == 'main':
+main()
+----------------------------------------------------------------------------------------------------------------------
+# import streamlit as st
+# import pandas as pd
+# import numpy as np
+# import plotly.express as px
+# from plotly.subplots import make_subplots
+# import plotly.graph_objects as go
+# from wordcloud import WordCloud, STOPWORDS
+# import matplotlib.pyplot as plt
 
-if __name__ == '__main__':
-    main()
+# import nltk
+# from nltk.sentiment.vader import SentimentIntensityAnalyzer
+
+# nltk.download('vader_lexicon')
+
+# st.set_option('deprecation.showPyplotGlobalUse', False)
+
+# # Load the dataset
+# df = pd.read_csv('Twitter_Data.csv')
+
+# # Create a function to analyze sentiment
+# def analyze_sentiment(clean_text):
+#     analyzer = SentimentIntensityAnalyzer()
+#     scores = analyzer.polarity_scores(clean_text)
+#     if scores['compound'] >= 0.05:
+#         return 'Positive'
+#     elif scores['compound'] <= -0.05:
+#         return 'Negative'
+#     else:
+#         return 'Neutral'
+
+# # Create a function to search for tweets that contain a specific keyword
+
+# def search_tweets(keyword, num_tweets):
+#     df = pd.read_csv('Twitter_Data.csv', encoding='ISO-8859-1')
+    
+#     if keyword:
+#         results = df[df['clean_text'].str.contains(keyword, na=False)].sample(n=num_tweets)
+#     else:
+#         results = df.sample(n=num_tweets)
+    
+#     return results
+
+
+# # Create a function to display a pie chart or a bar chart of the sentiment distribution
+# def display_chart(data, chart_type):
+#     if chart_type == 'Pie Chart':
+#         chart_data = data['category'].value_counts()
+#         fig1, ax1 = plt.subplots()
+#         ax1.pie(chart_data, labels=chart_data.index, autopct='%1.1f%%')
+#         st.pyplot(fig1)
+#     elif chart_type == 'Bar Chart':
+#         chart_data = data['category'].value_counts()
+#         fig2, ax2 = plt.subplots()
+#         ax2.bar(chart_data.index, chart_data)
+#         st.pyplot(fig2)
+
+# # Create a streamlit app
+# def main():
+#     st.title("Twitter Sentiment Analysis")
+#     st.write("Enter a keyword to search for tweets:")
+#     keyword = st.text_input(label="Keyword", value="COVID")
+#     num_tweets = st.slider("Select the number of tweets you want to see:", min_value=1, max_value=100, value=10)
+#     chart_type = st.selectbox("Select the type of chart to display:", ["Pie Chart", "Bar Chart"])
+
+#     results = search_tweets(keyword, num_tweets)
+#     st.write(results)
+
+#     if not results.empty:
+#         results['sentiment'] = results['clean_text'].apply(analyze_sentiment)
+#         st.write(f"Sentiment distribution for keyword: {keyword}")
+#         display_chart(results, chart_type)
+
+# if __name__ == '__main__':
+#     main()
 
 
 # DATA_URL = (
