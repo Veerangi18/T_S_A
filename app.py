@@ -119,7 +119,7 @@ def main():
     plt.axis("off")
     st.pyplot()
 
- if __name__ == '__main__':
+if __name__ == '__main__':
     main()
 
 
