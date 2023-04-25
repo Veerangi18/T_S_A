@@ -107,7 +107,7 @@ def main():
     ax4.imshow(wordcloud)
     ax4.axis("off")
     st.pyplot(fig4)
-if name == 'main':
+ if __name__ == '__main__':
     main()
 # ----------------------------------------------------------------------------------------------------------------------
 # import streamlit as st
