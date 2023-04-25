@@ -150,10 +150,14 @@ def search_tweets(keyword, num_tweets):
 def display_chart(data, chart_type):
     if chart_type == 'Pie Chart':
         chart_data = data['category'].value_counts()
-        st.write(chart_data.plot.pie(autopct='%1.1f%%'))
+        fig1, ax1 = plt.subplots()
+        ax1.pie(chart_data, labels=chart_data.index, autopct='%1.1f%%')
+        st.pyplot(fig1)
     elif chart_type == 'Bar Chart':
         chart_data = data['category'].value_counts()
-        st.write(chart_data.plot.bar())
+        fig2, ax2 = plt.subplots()
+        ax2.bar(chart_data.index, chart_data)
+        st.pyplot(fig2)
 
 # Create a streamlit app
 def main():
