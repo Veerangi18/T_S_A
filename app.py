@@ -12,12 +12,10 @@ DATA_URL = (
     "Tweets.csv"
 )
 
-st.title("Sentiment Analysis of Tweets about US Airlines")
+st.title("Twitter Sentiment Analysis")
 st.sidebar.title("Sentiment Analysis of Tweets")
-st.markdown("This application is a Streamlit dashboard used "
-            "to analyze sentiments of tweets 🐦")
-st.sidebar.markdown("This application is a Streamlit dashboard used "
-            "to analyze sentiments of tweets 🐦")
+st.markdown("This application is created to analyse twitter sentiments")
+st.sidebar.markdown("This applicationcreated to analyse twitter sentiments")
 
 @st.cache(persist=True)
 def load_data():
