@@ -101,9 +101,11 @@ def main():
    
     st.write("Sentiment Distribution:")
     display_chart(results, chart_type)
-
-    display_chart(results['sentiment_textblob'], chart_type)
-    display_chart(results['sentiment_vader'], chart_type)
+    
+    results['sentiment_textblob'] = results['clean_text'].apply(analyze_sentiment_textblob)
+        display_chart(results['sentiment_textblob'], chart_type)
+    results['sentiment_vader'] = results['clean_text'].apply(analyze_sentiment_vader)
+        display_chart(results['sentiment_vader'], chart_type)
     
     if chart_type == 'Bar Chart':
     
