@@ -79,6 +79,47 @@ def display_chart(data, chart_type):
         ax2.bar(chart_data.index, chart_data)
         st.pyplot(fig2)
 
+# # Create a streamlit app
+# def main():
+#     st.title("Twitter Sentiment Analysis")
+#     st.write("Enter a keyword to search for tweets:")
+#     keyword = st.text_input(label="Keyword", value="COVID")
+#     num_tweets = st.slider("Select the number of tweets you want to see:", min_value=1, max_value=100, value=10)
+#     chart_type = st.selectbox("Select the type of chart to display:", ["Pie Chart", "Bar Chart"])
+
+#     results = search_tweets(keyword, num_tweets)
+
+#     if not results.empty:
+#         # Analyze sentiment using TextBlob
+#         results['sentiment_textblob'] = results['clean_text'].apply(analyze_sentiment_textblob)
+
+#     # Analyze sentiment using Vader
+#         results['sentiment_vader'] = results['clean_text'].apply(analyze_sentiment_vader)
+   
+#     st.write("Sentiment Analysis: ")
+#     st.write(results[['clean_text', 'sentiment_textblob', 'sentiment_vader']])
+   
+#     st.write("Sentiment Distribution:")
+#     display_chart(results, chart_type)
+    
+#     results['sentiment_textblob'] = results['clean_text'].apply(analyze_sentiment_textblob)
+#     display_chart(results, chart_type)
+#     results['sentiment_vader'] = results['clean_text'].apply(analyze_sentiment_vader)
+#     display_chart(results, chart_type)
+    
+    
+#     st.write("Word Cloud of Most Frequent Words:")
+#     text = " ".join(review for review in results.clean_text)
+#     stopwords = set(STOPWORDS)
+#     stopwords.update([keyword])
+#     wordcloud = WordCloud(stopwords=stopwords, background_color="white").generate(text)
+#     plt.imshow(wordcloud, interpolation='bilinear')
+#     plt.axis("off")
+#     st.pyplot()     
+
+# if __name__ == '__main__':
+#     main()
+
 # Create a streamlit app
 def main():
     st.title("Twitter Sentiment Analysis")
@@ -93,33 +134,40 @@ def main():
         # Analyze sentiment using TextBlob
         results['sentiment_textblob'] = results['clean_text'].apply(analyze_sentiment_textblob)
 
-    # Analyze sentiment using Vader
+        # Analyze sentiment using Vader
         results['sentiment_vader'] = results['clean_text'].apply(analyze_sentiment_vader)
-   
+
     st.write("Sentiment Analysis: ")
     st.write(results[['clean_text', 'sentiment_textblob', 'sentiment_vader']])
-   
+
     st.write("Sentiment Distribution:")
     display_chart(results, chart_type)
-    
-    results['sentiment_textblob'] = results['clean_text'].apply(analyze_sentiment_textblob)
-    display_chart(results, chart_type)
-    results['sentiment_vader'] = results['clean_text'].apply(analyze_sentiment_vader)
-    display_chart(results, chart_type)
-    
-    
-    st.write("Word Cloud of Most Frequent Words:")
-    text = " ".join(review for review in results.clean_text)
-    stopwords = set(STOPWORDS)
-    stopwords.update([keyword])
-    wordcloud = WordCloud(stopwords=stopwords, background_color="white").generate(text)
-    plt.imshow(wordcloud, interpolation='bilinear')
-    plt.axis("off")
-    st.pyplot()     
+
+    st.write("TextBlob Sentiment Distribution:")
+    display_chart(results, chart_type, 'sentiment_textblob')
+
+    st.write("Vader Sentiment Distribution:")
+    display_chart(results, chart_type, 'sentiment_vader')
+
+
+# Function to display a chart based on a given column in a DataFrame
+def display_chart(data, chart_type, column=None):
+    if column is not None:
+        if column in data.columns:
+            data = data[column]
+        else:
+            st.write("Error: Column not found in DataFrame")
+            return
+
+    if chart_type == "Pie Chart":
+        chart = px.pie(data_frame=data, names=data.index, values=data, title="Sentiment Distribution")
+    else:
+        chart = px.bar(data_frame=data, x=data.index, y=data, title="Sentiment Distribution")
+
+    st.plotly_chart(chart)
 
 if __name__ == '__main__':
     main()
-
 
 
 
