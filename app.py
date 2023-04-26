@@ -107,16 +107,15 @@ def main():
     results['sentiment_vader'] = results['clean_text'].apply(analyze_sentiment_vader)
     display_chart(results, chart_type)
     
-    if chart_type == 'Bar Chart':
     
-        st.write("Word Cloud of Most Frequent Words:")
-        text = " ".join(review for review in results.clean_text)
-        stopwords = set(STOPWORDS)
-        stopwords.update([keyword])
-        wordcloud = WordCloud(stopwords=stopwords, background_color="white").generate(text)
-        plt.imshow(wordcloud, interpolation='bilinear')
-        plt.axis("off")
-        st.pyplot()    
+    st.write("Word Cloud of Most Frequent Words:")
+    text = " ".join(review for review in results.clean_text)
+    stopwords = set(STOPWORDS)
+    stopwords.update([keyword])
+    wordcloud = WordCloud(stopwords=stopwords, background_color="white").generate(text)
+    plt.imshow(wordcloud, interpolation='bilinear')
+    plt.axis("off")
+    st.pyplot()     
 
 if __name__ == '__main__':
     main()
